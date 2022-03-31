@@ -65,7 +65,7 @@ const VsImage = styled.img`
 `
 
 export default function Modal({ isOpen, onClose, gameState }) {
-    const numTag = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    const numTag = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K'];
     const player1 = gameState?.player1?.card.slice(0, gameState.player1.card.length-1);
     const player2 = gameState?.player2?.card.slice(0, gameState.player2.card.length-1);
     const win = numTag.indexOf(player1) > numTag.indexOf(player2) ? true : false;
@@ -77,14 +77,14 @@ export default function Modal({ isOpen, onClose, gameState }) {
                     <PlayerBoard>
                         <PlayerImage src={'assets/images/avatars/' + gameState.player1.avatar}></PlayerImage>
                         {
-                            gameState.player1.card ? <CardImage src={'https://deckofcardsapi.com/static/img/' + gameState.player1.card + '.png'}></CardImage> : ''
+                            gameState.player1.image ? <CardImage src={gameState.player1.image}></CardImage> : ''
                         }
                     </PlayerBoard>
                     <VsImage src="assets/images/vs.png"></VsImage>
                     <PlayerBoard>
                         <PlayerImage src={'assets/images/avatars/' + gameState.player2.avatar}></PlayerImage>
                         {
-                            gameState.player2.card ? <CardImage src={'https://deckofcardsapi.com/static/img/' + gameState.player2.card + '.png'}></CardImage> : ''
+                            gameState.player2.image ? <CardImage src={gameState.player2.image}></CardImage> : ''
                         }
                     </PlayerBoard>
                 </ModalBody>

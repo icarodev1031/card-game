@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import Card from '../components/card/Card';
 import Player from '../components/player/Player';
 import { useSelector, useDispatch } from 'react-redux'
-import { chosenCardsForPlayers } from '../store/reducer'
+import { chosenCardsForPlayers, createDeck, getCards } from '../store/reducer'
 import Modal from '../components/modal/Modal';
 
 const Container = styled.div`
@@ -58,20 +58,31 @@ export default function Home() {
     const [gameState, setGameState] = React.useState();
     const player1 = useSelector((state) => state.gameState.player1);
     const player2 = useSelector((state) => state.gameState.player2);
+    const p1Card = useSelector((state) => state.gameState.p1Card);
+    const p2Card = useSelector((state) => state.gameState.p2Card);
+    const deckInfo = useSelector((state) => state.gameState.deckInfo);
     const dispatch = useDispatch();
+    React.useEffect(() => {
+        dispatch(createDeck());
+    }, [])
+    React.useEffect(async() => {
+        dispatch(getCards());
+    }, [deckInfo]);
     React.useEffect(() => {
         const value = {
             player1: {
                 avatar: 'Player2.png',
-                card: player1,
+                image: player1,
+                card: p1Card,
             },
             player2: {
                 avatar: 'Player.jpg',
-                card: player2,
+                image: player2,
+                card: p2Card
             }
         }
         setGameState(value);
-    }, [player1, player2])
+    }, [player1, player2, p1Card, p2Card])
     const players = {
         player1: {
             alignReverse: 'false',
@@ -94,7 +105,6 @@ export default function Home() {
         if(player1SelectedCard) {
             const number = Math.floor(Math.random() * 52) == player1SelectedCard ? player1SelectedCard + 1 : Math.floor(Math.random() * 52);
             setPlayer2SelectedCard(number);
-            dispatch(chosenCardsForPlayers());
         }
     }, [player1SelectedCard])
     return (
